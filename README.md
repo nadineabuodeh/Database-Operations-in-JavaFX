@@ -1,4 +1,4 @@
-# Assignment: Database Operations in JavaFX with XXAMP
+# Database Operations in JavaFX with XXAMP
 
 ## Overview
 
