@@ -12,3 +12,6 @@ This repository contains a JavaFX application designed for performing basic CRUD
 
 ![I1st interface](introduction.png)
 
+
+![I2nd interface](table.PNG)
+
