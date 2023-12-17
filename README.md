@@ -7,7 +7,7 @@ This repository contains a JavaFX application designed for performing basic CRUD
 ## Requirements
 
 - Java Development Kit (JDK) installed
-- XXAMP server set up with a MySQL database
+- XXAMP server set up with a SQL database
 - JavaFX libraries included in the project
 
 ![I1st interface](introduction.png)
