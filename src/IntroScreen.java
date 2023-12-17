@@ -36,7 +36,7 @@ public class IntroScreen extends Application {
 		pane.setAlignment(Pos.CENTER_LEFT);
 
 		addressTable.setOnAction(e -> {
-			AddressTableScreen address = new AddressTableScreen();
+			AddressTable address = new AddressTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -51,7 +51,7 @@ public class IntroScreen extends Application {
 		carTable.setStyle("-fx-background-radius: 20");
 
 		carTable.setOnAction(e -> {
-			CarTableScreen address = new CarTableScreen();
+			CarTable address = new CarTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -66,7 +66,7 @@ public class IntroScreen extends Application {
 		car_PartTable.setStyle("-fx-background-radius: 20");
 
 		car_PartTable.setOnAction(e -> {
-			Car_PartTableScreen address = new Car_PartTableScreen();
+			Car_PartTable address = new Car_PartTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -81,7 +81,7 @@ public class IntroScreen extends Application {
 		customerTable.setStyle("-fx-background-radius: 20");
 
 		customerTable.setOnAction(e -> {
-			CustomerTableScreen address = new CustomerTableScreen();
+			CustomerTable address = new CustomerTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -96,7 +96,7 @@ public class IntroScreen extends Application {
 		deviceTable.setStyle("-fx-background-radius: 20");
 
 		deviceTable.setOnAction(e -> {
-			DeviceTableScreen address = new DeviceTableScreen();
+			DeviceTable address = new DeviceTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -111,7 +111,7 @@ public class IntroScreen extends Application {
 		ManufactureTable.setStyle("-fx-background-radius: 20");
 
 		ManufactureTable.setOnAction(e -> {
-			ManufactureTableScreen address = new ManufactureTableScreen();
+			ManufactureTable address = new ManufactureTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -126,7 +126,7 @@ public class IntroScreen extends Application {
 		OrdersTable.setStyle("-fx-background-radius: 20");
 
 		OrdersTable.setOnAction(e -> {
-			OrdersTableScreen address = new OrdersTableScreen();
+			OrdersTable address = new OrdersTable();
 			Stage adressStage = new Stage();
 			try {
 				address.start(adressStage);
@@ -137,17 +137,9 @@ public class IntroScreen extends Application {
 		});
 
 		VBox vbox1 = new VBox();
-		vbox1.getChildren().addAll(addressTable, carTable, car_PartTable);
+		vbox1.getChildren().addAll(addressTable, carTable, car_PartTable,customerTable, deviceTable, ManufactureTable,OrdersTable);
 		vbox1.setSpacing(30);
-
-		VBox vbox2 = new VBox();
-		vbox2.getChildren().addAll(customerTable, deviceTable, ManufactureTable);
-		vbox2.setSpacing(30);
-
-		pane.add(vbox1, 20, 110);
-		pane.add(vbox2, 270, 110);
-		pane.add(OrdersTable, 140, 165);
-
+		pane.add(vbox1, 330, 10);
 		Scene introScene = new Scene(pane, 250, 250);
 		primaryStage.setTitle("Welcome");
 		primaryStage.setScene(introScene);
