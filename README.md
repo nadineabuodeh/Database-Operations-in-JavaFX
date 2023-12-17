@@ -10,3 +10,5 @@ This repository contains a JavaFX application designed for performing basic CRUD
 - XXAMP server set up with a MySQL database
 - JavaFX libraries included in the project
 
+![I1st interface](introduction.png)
+
