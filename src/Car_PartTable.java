@@ -117,10 +117,14 @@ public class Car_PartTable extends Application {
 		Insert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
 		Insert.setStyle("-fx-background-radius: 20");
 
+		Button Update = new Button("Update");
+		Update.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
+		Update.setStyle("-fx-background-radius: 20");
+		
 		Button Delete = new Button("Delete");
 		Delete.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
 		Delete.setStyle("-fx-background-radius: 20");
-		hbox.getChildren().addAll(Search, Insert, Delete);
+		hbox.getChildren().addAll(Search,Insert, Update, Delete);
 		hbox.setSpacing(20);
 		hbox.setAlignment(Pos.CENTER);
 		
@@ -152,6 +156,10 @@ public class Car_PartTable extends Application {
 			h1.getChildren().clear();
 			h1.getChildren().addAll(fullPane,Insert());
 		});
+		Update.setOnAction(e ->{
+			h1.getChildren().clear();
+			h1.getChildren().addAll(fullPane,Update());
+		});
 		Delete.setOnAction(e ->{
 			h1.getChildren().clear();
 			h1.getChildren().addAll(fullPane,Delete());
@@ -179,6 +187,7 @@ public class Car_PartTable extends Application {
 		});	
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Car_Part Table");
 		primaryStage.show();
 	}
 	public GridPane Select() {
@@ -188,32 +197,31 @@ public class Car_PartTable extends Application {
 		BackgroundImage bImg = new BackgroundImage(introduction, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.DEFAULT, new BackgroundSize(250, 250, false, false, false, true));
 		pane.setBackground(new Background(bImg));
-		VBox insertDataVbox = new VBox();
 		data();
 		Label buildingLabel = new Label("Car : ");
 		buildingLabel.setFont(Font.font("Times New Roman", 20));
 		TextField carTextField = new TextField();
-		HBox hboxBuilding = new HBox();
-		hboxBuilding.getChildren().addAll(buildingLabel, carTextField);
-		hboxBuilding.setSpacing(10);
 
 		Label cityLabel = new Label("Part : ");
 		cityLabel.setFont(Font.font("Times New Roman", 20));
 		Spinner<Integer> partSpinner = new Spinner<Integer>();
 		partSpinner.setEditable(true);
-		HBox hboxCity = new HBox();
-		hboxCity.getChildren().addAll(cityLabel, partSpinner);
-		hboxCity.setSpacing(10);
+		
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,cityLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(carTextField, partSpinner);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
 
-
-		insertDataVbox.setSpacing(10);
-		fullPane.setSpacing(80);
-		insertDataVbox.getChildren().addAll(hboxBuilding, hboxCity);
 		pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0,0);
+		pane.add(hbox, 0,0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -296,6 +304,16 @@ public class Car_PartTable extends Application {
 		hboxBuilding.getChildren().addAll(buildingLabel, comboBoxIdPart);
 		hboxBuilding.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxIdCar, comboBoxIdPart);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding);
@@ -303,7 +321,7 @@ public class Car_PartTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0,0);
+		pane.add(hbox, 0,0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -335,17 +353,230 @@ public class Car_PartTable extends Application {
 					part = comboBoxIdPart.getSelectionModel().getSelectedItem().toString();
 				}
 				if (car.isEmpty() || part.isEmpty()) {
-
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} 
 				else {
 					String sql = "INSERT INTO car_part VALUES ('" + car + "','" + part + "')";
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Insert Complete!");
+					alert.showAndWait();
+					comboBoxIdCar.getSelectionModel().clearSelection();
+					comboBoxIdCar.getItems().clear();
+					dataOriginPart();
+					comboBoxIdCar.getItems().addAll(setListCarOrigin);
+					comboBoxIdPart.getSelectionModel().clearSelection();
+					comboBoxIdPart.getItems().clear();
+					dataOriginPart();
+					comboBoxIdPart.getItems().addAll(setListPartOrigin);
 				} } catch (Exception e1) {
 						e1.printStackTrace();
 					}
 					});
 		return pane;
+	}
+	
+	public GridPane Update() {
+			GridPane pane = new GridPane();
+			VBox fullPane = new VBox();
+			Image introduction = new Image(new File("colorbackground.png").toURI().toString());
+			BackgroundImage bImg = new BackgroundImage(introduction, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+					BackgroundPosition.DEFAULT, new BackgroundSize(250, 250, false, false, false, true));
+			pane.setBackground(new Background(bImg));
+			VBox insertDataVbox = new VBox();
+			data();
+			Label from = new Label("From");
+			from.setFont(Font.font("Times New Roman", 20));
+			Label idLabel = new Label("Car :");
+			idLabel.setFont(Font.font("Times New Roman", 20));
+			ComboBox comboBoxIdCar = new ComboBox(FXCollections.observableArrayList(setListCar));
+			HBox hboxId = new HBox();
+			hboxId.getChildren().addAll(idLabel, comboBoxIdCar);
+			hboxId.setSpacing(10);
+
+			Label buildingLabel = new Label("Part : ");
+			buildingLabel.setFont(Font.font("Times New Roman", 20));
+			ComboBox comboBoxIdPart = new ComboBox(FXCollections.observableArrayList(setListpart));
+			HBox hboxBuilding = new HBox();
+			hboxBuilding.getChildren().addAll(buildingLabel, comboBoxIdPart);
+			hboxBuilding.setSpacing(10);
+
+			VBox vLabel = new VBox();
+			vLabel.getChildren().addAll(idLabel,buildingLabel);
+			vLabel.setSpacing(20);
+			VBox vText = new VBox();
+			vText.getChildren().addAll(comboBoxIdCar, comboBoxIdPart);
+			vText.setSpacing(10);
+			HBox hbox = new HBox();
+			hbox.getChildren().addAll(from,vLabel,vText);
+			hbox.setSpacing(10);
+			
+			insertDataVbox.setSpacing(10);
+			fullPane.setSpacing(80);
+			insertDataVbox.getChildren().addAll(hboxId, hboxBuilding);
+			pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
+			pane.setHgap(3.5);
+			pane.setVgap(3.5);
+			pane.setAlignment(Pos.CENTER_LEFT);
+			pane.add(hbox, 0, 0);
+
+			
+			Label to = new Label("To");
+			to.setFont(Font.font("Times New Roman", 20));
+			Label idLabel1 = new Label("Car :");
+			idLabel1.setFont(Font.font("Times New Roman", 20));
+			dataOriginCar();
+			ComboBox comboBoxIdCar1 = new ComboBox(FXCollections.observableArrayList(setListCarOrigin));
+			HBox hboxId1 = new HBox();
+			hboxId1.getChildren().addAll(idLabel1, comboBoxIdCar1);
+			hboxId1.setSpacing(10);
+			dataOriginPart();
+			Label buildingLabel1 = new Label("Part : ");
+			buildingLabel1.setFont(Font.font("Times New Roman", 20));
+			ComboBox comboBoxIdPart1 = new ComboBox(FXCollections.observableArrayList(setListPartOrigin));
+			HBox hboxBuilding1 = new HBox();
+			hboxBuilding1.getChildren().addAll(buildingLabel1, comboBoxIdPart1);
+			hboxBuilding1.setSpacing(10);
+
+			VBox vLabel1 = new VBox();
+			vLabel1.getChildren().addAll(idLabel1,buildingLabel1);
+			vLabel1.setSpacing(20);
+			VBox vText1 = new VBox();
+			vText1.getChildren().addAll(comboBoxIdCar1, comboBoxIdPart1);
+			vText1.setSpacing(10);
+			HBox hbox1 = new HBox();
+			hbox1.getChildren().addAll(to,vLabel1,vText1);
+			hbox1.setSpacing(10);
+			pane.add(hbox1, 5, 0);
+			
+			
+			
+			Button buttonSelect = new Button("Update Data");
+			buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
+			buttonSelect.setStyle("-fx-background-radius: 20");
+			HBox hb = new HBox();
+			hb.getChildren().addAll(buttonSelect);
+			hb.setSpacing(20);
+			pane.add(hb, 0,10);
+
+			buttonSelect.setOnAction(e -> {
+				String sql = "UPDATE car_part";
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cars", "root", "");
+
+					Statement stmt = con.createStatement();
+					String car = "";
+					if (comboBoxIdCar.getValue() == null) {
+						comboBoxIdCar.getPromptText();
+					} else {
+						car = comboBoxIdCar.getSelectionModel().getSelectedItem().toString();
+					}
+					String part = "";
+					if (comboBoxIdPart.getValue() == null) {
+						comboBoxIdPart.getPromptText();
+					} else {
+						part = comboBoxIdPart.getSelectionModel().getSelectedItem().toString();
+					}
+					String car1 = "";
+					if (comboBoxIdCar1.getValue() == null) {
+						comboBoxIdCar1.getPromptText();
+					} else {
+						car1 = comboBoxIdCar1.getSelectionModel().getSelectedItem().toString();
+					}
+					String part1 = "";
+					if (comboBoxIdPart1.getValue() == null) {
+						comboBoxIdPart1.getPromptText();
+					} else {
+						part1 = comboBoxIdPart1.getSelectionModel().getSelectedItem().toString();
+					}
+					if (car1.isEmpty() && part1.isEmpty()) {
+						sql = "select * from car_part";
+					} else {
+						sql += " SET ";
+						if (!(car1.isEmpty())) {
+							sql += "car = '" + car1 + "' , ";
+						}
+						if (!(part1.isEmpty())) {
+							sql += "part = '" + part1 + "' , ";
+						}
+						if (car.isEmpty() && part.isEmpty()) {
+							Alert alert = new Alert(Alert.AlertType.WARNING);
+							alert.setTitle("Warning");
+							alert.setContentText("The Process does not work Because did not enter car or part.");
+							alert.showAndWait();
+							sql = "select * from car_part";
+						}
+					}
+					String[] splitArray = sql.split(" ");
+					for (String string : splitArray) {
+						System.out.println(string);
+					}
+					System.out.println("------------------");
+					String[] newSQL = new String[splitArray.length - 1];
+					if (splitArray[splitArray.length - 1].equalsIgnoreCase(",")) {
+						for (int i = 0; i < newSQL.length; i++) {
+							newSQL[i] = splitArray[i];
+						}
+						sql = "";
+
+						for (String string : newSQL) {
+							sql += string + " ";
+						}
+						sql += "Where ";
+						if (!(car.isEmpty())) {
+							sql += "car = '" + car + "' AND ";
+						}
+						if (!(part.isEmpty())) {
+							sql += "part = " + part + " AND ";
+						}
+						String[] splitArray1 = sql.split(" ");
+						for (String string : splitArray1) {
+							System.out.println(string);
+						}
+						System.out.println("------------------");
+						String[] newSQL1 = new String[splitArray1.length - 1];
+						if (splitArray1[splitArray1.length - 1].equalsIgnoreCase("And")) {
+							for (int i = 0; i < newSQL1.length; i++) {
+								newSQL1[i] = splitArray1[i];
+							}
+							sql = "";
+
+							for (String string : newSQL1) {
+								sql += string + " ";
+							}
+						}
+						sql+=";";
+						System.out.println(sql);
+						stmt.executeUpdate(sql);
+						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("CONFIRMATION");
+						alert.setContentText("Update Complete!");
+						alert.showAndWait();
+						buildData(null);
+						comboBoxIdCar.getSelectionModel().clearSelection();
+						comboBoxIdCar.getItems().clear();
+						data();
+						comboBoxIdCar.getItems().addAll(setListCar);
+						comboBoxIdPart.getSelectionModel().clearSelection();
+						comboBoxIdPart.getItems().clear();
+						data();
+						comboBoxIdPart.getItems().addAll(setListpart);
+						comboBoxIdCar1.getSelectionModel().clearSelection();
+						comboBoxIdPart1.getSelectionModel().clearSelection();						
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			});
+			return pane;
 	}
 	
 	public GridPane Delete() {
@@ -371,6 +602,16 @@ public class Car_PartTable extends Application {
 		hboxBuilding.getChildren().addAll(buildingLabel, comboBoxIdPart);
 		hboxBuilding.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxIdCar, comboBoxIdPart);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding);
@@ -378,9 +619,7 @@ public class Car_PartTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
-		tableview.setMaxWidth(200);
-		tableview.setMaxHeight(200);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Delete Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -434,6 +673,18 @@ public class Car_PartTable extends Application {
 					stmt.executeUpdate(sql);
 				}
 				buildData(null);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("CONFIRMATION");
+				alert.setContentText("Delete Complete!");
+				alert.showAndWait();
+				comboBoxIdCar.getSelectionModel().clearSelection();
+				comboBoxIdCar.getItems().clear();
+				data();
+				comboBoxIdCar.getItems().addAll(setListCar);
+				comboBoxIdPart.getSelectionModel().clearSelection();
+				comboBoxIdPart.getItems().clear();
+				data();
+				comboBoxIdPart.getItems().addAll(setListpart);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

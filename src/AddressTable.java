@@ -185,6 +185,7 @@ public class AddressTable extends Application {
 		
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Address Table");
 		primaryStage.show();
 	}
 
@@ -194,51 +195,43 @@ public class AddressTable extends Application {
 		BackgroundImage bImg = new BackgroundImage(introduction, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.DEFAULT, new BackgroundSize(250, 250, false, false, false, true));
 		pane.setBackground(new Background(bImg));
-		VBox insertDataVbox = new VBox();
 		Label idLabel = new Label("ID :");
 		idLabel.setFont(Font.font("Times New Roman", 20));
 		Spinner<Integer> idSpinner = new Spinner<Integer>();
 		idSpinner.setEditable(true);
-		HBox hboxId = new HBox();
-		hboxId.getChildren().addAll(idLabel, idSpinner);
-		hboxId.setSpacing(10);
 
 		Label buildingLabel = new Label("Building : ");
 		buildingLabel.setFont(Font.font("Times New Roman", 20));
 		Spinner<Integer> buildingSpinner = new Spinner<Integer>();
 		buildingSpinner.setEditable(true);
-		HBox hboxBuilding = new HBox();
-		hboxBuilding.getChildren().addAll(buildingLabel, buildingSpinner);
-		hboxBuilding.setSpacing(10);
 
 		Label streetLabel = new Label("Street : ");
 		streetLabel.setFont(Font.font("Times New Roman", 20));
 		TextField streetTextField = new TextField();
-		HBox hboxStreet = new HBox();
-		hboxStreet.getChildren().addAll(streetLabel, streetTextField);
-		hboxStreet.setSpacing(10);
 
 		Label cityLabel = new Label("City : ");
 		cityLabel.setFont(Font.font("Times New Roman", 20));
 		TextField cityTextField = new TextField();
-		HBox hboxCity = new HBox();
-		hboxCity.getChildren().addAll(cityLabel, cityTextField);
-		hboxCity.setSpacing(10);
 
 		Label countryLabel = new Label("Country : ");
 		countryLabel.setFont(Font.font("Times New Roman", 20));
 		TextField countryTextField = new TextField();
-		HBox hboxCountry = new HBox();
-		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
-		hboxCountry.setSpacing(10);
 
-		insertDataVbox.setSpacing(10);
-		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(idSpinner,buildingSpinner, streetTextField,cityTextField,countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -328,53 +321,44 @@ public class AddressTable extends Application {
 		BackgroundImage bImg = new BackgroundImage(introduction, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.DEFAULT, new BackgroundSize(250, 250, false, false, false, true));
 		pane.setBackground(new Background(bImg));
-		VBox insertDataVbox = new VBox();
 		Label idLabel = new Label("ID :");
 		idLabel.setFont(Font.font("Times New Roman", 20));
 
 		Spinner<Integer> idSpinner = new Spinner<Integer>();
 		idSpinner.setEditable(true);
-		HBox hboxId = new HBox();
-		hboxId.getChildren().addAll(idLabel, idSpinner);
-		hboxId.setSpacing(10);
 
 		Label buildingLabel = new Label("Building : ");
 		buildingLabel.setFont(Font.font("Times New Roman", 20));
 		Spinner<Integer> BuildingSpinner = new Spinner<Integer>();
 		BuildingSpinner.setEditable(true);
-		HBox hboxBuilding = new HBox();
-		hboxBuilding.getChildren().addAll(buildingLabel, BuildingSpinner);
-		hboxBuilding.setSpacing(10);
 
 		Label streetLabel = new Label("Street : ");
 		streetLabel.setFont(Font.font("Times New Roman", 20));
-		TextField streetTextField = new TextField();
-		HBox hboxStreet = new HBox();
-		hboxStreet.getChildren().addAll(streetLabel, streetTextField);
-		hboxStreet.setSpacing(10);
+		TextField streetTextField = new TextField();		
 
 		Label cityLabel = new Label("City : ");
 		cityLabel.setFont(Font.font("Times New Roman", 20));
 		TextField cityTextField = new TextField();
-		HBox hboxCity = new HBox();
-		hboxCity.getChildren().addAll(cityLabel, cityTextField);
-		hboxCity.setSpacing(10);
 
 		Label countryLabel = new Label("Country : ");
 		countryLabel.setFont(Font.font("Times New Roman", 20));
 		TextField countryTextField = new TextField();
-		HBox hboxCountry = new HBox();
-		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
-		hboxCountry.setSpacing(10);
 
-		insertDataVbox.setSpacing(10);
-		fullPane.setSpacing(80);
-		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(idSpinner,BuildingSpinner, streetTextField,cityTextField,countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0,0);
+		pane.add(hbox, 0,0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -399,7 +383,10 @@ public class AddressTable extends Application {
 				String city = cityTextField.getText();
 				String country = countryTextField.getText();
 				if (id.isEmpty() || building.isEmpty() || street.isEmpty() || city.isEmpty() || country.isEmpty()) {
-
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} else {
 					boolean idN = true;
 					boolean buildingN = true;
@@ -437,6 +424,15 @@ public class AddressTable extends Application {
 							+ "','" + country + "')";
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Insert Complete!");
+					alert.showAndWait();
+					idSpinner.getEditor().clear();
+					BuildingSpinner.getEditor().clear();
+					streetTextField.clear();
+					cityTextField.clear();
+					countryTextField.clear();
 					}
 				}
 			}} catch (Exception w) {
@@ -453,7 +449,6 @@ public class AddressTable extends Application {
 		BackgroundImage bImg = new BackgroundImage(introduction, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.DEFAULT, new BackgroundSize(250, 250, false, false, false, true));
 		pane.setBackground(new Background(bImg));
-		VBox insertDataVbox = new VBox();
 		data();
 		Label idLabel = new Label("ID :");
 		idLabel.setFont(Font.font("Times New Roman", 20));
@@ -467,39 +462,34 @@ public class AddressTable extends Application {
 		buildingLabel.setFont(Font.font("Times New Roman", 20));
 		Spinner<Integer> BuildingSpinner = new Spinner<Integer>();
 		BuildingSpinner.setEditable(true);
-		HBox hboxBuilding = new HBox();
-		hboxBuilding.getChildren().addAll(buildingLabel, BuildingSpinner);
-		hboxBuilding.setSpacing(10);
 
 		Label streetLabel = new Label("Street : ");
 		streetLabel.setFont(Font.font("Times New Roman", 20));
 		TextField streetTextField = new TextField();
-		HBox hboxStreet = new HBox();
-		hboxStreet.getChildren().addAll(streetLabel, streetTextField);
-		hboxStreet.setSpacing(10);
 
 		Label cityLabel = new Label("City : ");
 		cityLabel.setFont(Font.font("Times New Roman", 20));
 		TextField cityTextField = new TextField();
-		HBox hboxCity = new HBox();
-		hboxCity.getChildren().addAll(cityLabel, cityTextField);
-		hboxCity.setSpacing(10);
 
 		Label countryLabel = new Label("Country : ");
 		countryLabel.setFont(Font.font("Times New Roman", 20));
 		TextField countryTextField = new TextField();
-		HBox hboxCountry = new HBox();
-		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
-		hboxCountry.setSpacing(10);
 
-		insertDataVbox.setSpacing(10);
-		fullPane.setSpacing(80);
-		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxIdUpdate,BuildingSpinner, streetTextField,cityTextField,countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0,0);
+		pane.add(hbox, 0,0);
 
 		Button buttonUpdate = new Button("Update Data");
 		buttonUpdate.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -584,9 +574,17 @@ public class AddressTable extends Application {
 				}
 				stmt.executeUpdate(sql);
 				buildData(null);
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("CONFIRMATION");
+				alert.setContentText("Update Complete!");
+				alert.showAndWait();
+				comboBoxIdUpdate.getSelectionModel().clearSelection();
+				BuildingSpinner.getEditor().clear();
+				streetTextField.clear();
+				cityTextField.clear();
+				countryTextField.clear();
 			}
 			System.out.println(sql);
-			
 			}}	catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -654,7 +652,14 @@ public class AddressTable extends Application {
 					sql += "where id = " + id + ";";
 					stmt.executeUpdate(sql);
 					buildData(null);
-					
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Delete Complete!");
+					alert.showAndWait();
+					comboBoxIdDelete.getSelectionModel().clearSelection();
+					comboBoxIdDelete.getItems().clear();
+					data();
+					comboBoxIdDelete.getItems().addAll(idList);
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();

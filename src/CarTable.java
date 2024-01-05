@@ -182,6 +182,7 @@ public class CarTable extends Application {
 		});
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Car Table");
 		primaryStage.show();
 	}
 
@@ -222,6 +223,16 @@ public class CarTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, madeTextField);
 		hboxCountry.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(nameTextField,modelTextField, yearSpinner,madeTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -229,7 +240,7 @@ public class CarTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -336,6 +347,16 @@ public class CarTable extends Application {
 		HBox hboxCountry = new HBox();
 		hboxCountry.getChildren().addAll(countryLabel, comboBoxMade);
 		hboxCountry.setSpacing(10);
+		
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(nameTextField,modelTextField, yearSpinner, comboBoxMade);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
 
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
@@ -344,7 +365,7 @@ public class CarTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -375,7 +396,10 @@ public class CarTable extends Application {
 				}
 
 				if (name.isEmpty() || model.isEmpty() || year.isEmpty() || made.isEmpty()) {
-
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} else {
 					boolean yearN = true;
 					for (int i = 0; i < year.length(); i++) {
@@ -400,6 +424,14 @@ public class CarTable extends Application {
 							System.out.println(sql);
 							stmt.executeUpdate(sql);
 							buildData(null);
+							Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+							alert.setTitle("CONFIRMATION");
+							alert.setContentText("Insert Complete!");
+							alert.showAndWait();
+							nameTextField.clear();
+							modelTextField.clear();
+							yearSpinner.getEditor().clear();
+							comboBoxMade.getSelectionModel().clearSelection();
 						}
 					}
 				}
@@ -450,6 +482,16 @@ public class CarTable extends Application {
 			hboxCountry.getChildren().addAll(countryLabel, comboBoxMade);
 			hboxCountry.setSpacing(10);
 			
+			VBox vLabel = new VBox();
+			vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+			vLabel.setSpacing(20);
+			VBox vText = new VBox();
+			vText.getChildren().addAll(comboBoxName,modelTextField, yearSpinner, comboBoxMade);
+			vText.setSpacing(10);
+			HBox hbox = new HBox();
+			hbox.getChildren().addAll(vLabel,vText);
+			hbox.setSpacing(10);
+			
 			insertDataVbox.setSpacing(10);
 			fullPane.setSpacing(80);
 			insertDataVbox.getChildren().addAll(hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -457,7 +499,7 @@ public class CarTable extends Application {
 			pane.setHgap(3.5);
 			pane.setVgap(3.5);
 			pane.setAlignment(Pos.CENTER_LEFT);
-			pane.add(insertDataVbox, 0,0);
+			pane.add(hbox, 0,0);
 
 			Button buttonUpdate = new Button("Update Data");
 			buttonUpdate.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -508,7 +550,7 @@ public class CarTable extends Application {
 					else {
 					sql += " SET ";
 					if (!(model.isEmpty())) {
-						sql += "model = " + model + " , ";
+						sql += "model = '" + model + "' , ";
 					}
 					if (!(year.isEmpty())) {
 						sql += "year = '" + year + "' , ";
@@ -543,6 +585,14 @@ public class CarTable extends Application {
 					}
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Update Complete!");
+					alert.showAndWait();
+					comboBoxName.getSelectionModel().clearSelection();
+					modelTextField.clear();
+					yearSpinner.getEditor().clear();
+					comboBoxMade.getSelectionModel().clearSelection();
 				}
 				System.out.println(sql);
 				
@@ -611,7 +661,15 @@ public class CarTable extends Application {
 					sql += "where name = '" + name + "';";
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Delete Complete!");
+					alert.showAndWait();
 					buildData(null);
+					comboBoxId.getSelectionModel().clearSelection();
+					comboBoxId.getItems().clear();
+					data();
+					comboBoxId.getItems().addAll(idList);
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();

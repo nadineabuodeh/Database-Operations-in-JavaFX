@@ -185,6 +185,7 @@ public class ManufactureTable extends Application {
 		});
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Manufacture Table");
 		primaryStage.show();
 	}
 
@@ -224,6 +225,16 @@ public class ManufactureTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
 		hboxCountry.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(nameTextField, typeTextField, cityTextField, countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -231,7 +242,7 @@ public class ManufactureTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -322,6 +333,16 @@ public class ManufactureTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
 		hboxCountry.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(nameTextField, typeTextField, cityTextField, countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -329,7 +350,7 @@ public class ManufactureTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -351,8 +372,11 @@ public class ManufactureTable extends Application {
 				String type = typeTextField.getText();
 				String city = cityTextField.getText();
 				String country = countryTextField.getText();
-				if (name.isEmpty() && type.isEmpty() && city.isEmpty() && country.isEmpty()) {
-
+				if (name.isEmpty() || type.isEmpty() || city.isEmpty() || country.isEmpty()) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} else {
 					if (nameList.contains(name)) {
 						Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -364,6 +388,14 @@ public class ManufactureTable extends Application {
 								+ country + "')";
 						stmt.executeUpdate(sql);
 						buildData(null);
+						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("CONFIRMATION");
+						alert.setContentText("Insert Complete!");
+						alert.showAndWait();
+						nameTextField.clear();
+						typeTextField.clear();
+						cityTextField.clear();
+						countryTextField.clear();
 					}
 				}
 			} catch (Exception w) {
@@ -411,6 +443,16 @@ public class ManufactureTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, countryTextField);
 		hboxCountry.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxId, typeTextField, cityTextField, countryTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -418,7 +460,7 @@ public class ManufactureTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonUpdate = new Button("Update Data");
 		buttonUpdate.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -487,6 +529,14 @@ public class ManufactureTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Update Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					typeTextField.clear();
+					cityTextField.clear();
+					countryTextField.clear();
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -556,6 +606,14 @@ public class ManufactureTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Delete Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					comboBoxId.getItems().clear();
+					data();
+					comboBoxId.getItems().addAll(nameList);
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();

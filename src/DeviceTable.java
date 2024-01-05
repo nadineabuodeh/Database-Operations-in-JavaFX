@@ -186,6 +186,7 @@ public class DeviceTable extends Application {
 		});
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Device Table");
 		primaryStage.show();
 	}
 
@@ -235,6 +236,16 @@ public class DeviceTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, madeTextField);
 		hboxCountry.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(numberSpinner,nameTextField, priceSpinner, weightSpinner, madeTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -242,7 +253,7 @@ public class DeviceTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -391,13 +402,23 @@ public class DeviceTable extends Application {
 		hboxCountry.setSpacing(10);
 		insertDataVbox.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(numberSpinner,nameTextField, priceSpinner, weightSpinner, comboBoxAddress);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
 		pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -425,8 +446,11 @@ public class DeviceTable extends Application {
 				} else {
 					made = comboBoxAddress.getSelectionModel().getSelectedItem().toString();
 				}
-				if (no.isEmpty() && name.isEmpty() && price.isEmpty() && weight.isEmpty() && made.isEmpty()) {
-
+				if (no.isEmpty() || name.isEmpty() || price.isEmpty() || weight.isEmpty() || made.isEmpty()) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} else {
 					boolean noN = true;
 					boolean priceN = true;
@@ -478,6 +502,15 @@ public class DeviceTable extends Application {
 								+ weight + "','" + made + "')";
 						stmt.executeUpdate(sql);
 						buildData(null);
+						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("CONFIRMATION");
+						alert.setContentText("Insert Complete!");
+						alert.showAndWait();
+						numberSpinner.getEditor().clear();
+						nameTextField.clear();
+						priceSpinner.getEditor().clear();
+						weightSpinner.getEditor().clear();
+						comboBoxAddress.getSelectionModel().clearSelection();
 					}
 				}
 			} catch (Exception w) {
@@ -536,6 +569,16 @@ public class DeviceTable extends Application {
 		hboxCountry.getChildren().addAll(countryLabel, comboBoxMade);
 		hboxCountry.setSpacing(10);
 		
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel,countryLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxId,nameTextField, priceSpinner, weightSpinner, comboBoxMade);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity, hboxCountry);
@@ -543,7 +586,7 @@ public class DeviceTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonUpdate = new Button("Update Data");
 		buttonUpdate.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -650,6 +693,15 @@ public class DeviceTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Update Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					nameTextField.clear();
+					priceSpinner.getEditor().clear();
+					weightSpinner.getEditor().clear();
+					comboBoxMade.getSelectionModel().clearSelection();
 				}
 				}} catch (Exception e1) {
 				e1.printStackTrace();
@@ -720,6 +772,14 @@ public class DeviceTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Delete Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					comboBoxId.getItems().clear();
+					data();
+					comboBoxId.getItems().addAll(numberList);
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();

@@ -183,6 +183,7 @@ public class OrdersTable extends Application {
 		});
 		Scene scene = new Scene(h1, 1200, 700);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Orders Table");
 		primaryStage.show();
 	}
 
@@ -225,6 +226,16 @@ public class OrdersTable extends Application {
 		hboxCity.getChildren().addAll(cityLabel, carTextField);
 		hboxCity.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(idSpinner, dateSpinner, customerSpinner, carTextField);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity);
@@ -232,7 +243,7 @@ public class OrdersTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonSelect = new Button("Select Data");
 		buttonSelect.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -363,6 +374,16 @@ public class OrdersTable extends Application {
 		hboxCity.getChildren().addAll(cityLabel, comboBoxCar);
 		hboxCity.setSpacing(10);
 
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(idSpinner, dateSpinner, comboBoxCustomer, comboBoxCar);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity);
@@ -370,7 +391,7 @@ public class OrdersTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonInsert = new Button("Insert Data");
 		buttonInsert.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -403,9 +424,11 @@ public class OrdersTable extends Application {
 				} else {
 					car = comboBoxCar.getSelectionModel().getSelectedItem().toString();
 				}
-
 				if (id.isEmpty() || date.isEmpty() || customer.isEmpty() || car.isEmpty()) {
-
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Warning");
+					alert.setContentText("The Process does not work Because You must to enter all fields");
+					alert.showAndWait();
 				} else {
 					boolean idN = true;
 					boolean dateN = true;
@@ -439,6 +462,14 @@ public class OrdersTable extends Application {
 								+ "')";
 						stmt.executeUpdate(sql);
 						buildData(null);
+						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("CONFIRMATION");
+						alert.setContentText("Insert Complete!");
+						alert.showAndWait();
+						idSpinner.getEditor().clear();
+						dateSpinner.getEditor().clear();
+						comboBoxCustomer.getSelectionModel().clearSelection();
+						comboBoxCar.getSelectionModel().clearSelection();
 					}
 				}
 			} catch (Exception w) {
@@ -490,6 +521,16 @@ public class OrdersTable extends Application {
 		hboxCity.getChildren().addAll(cityLabel, comboBoxCar);
 		hboxCity.setSpacing(10);
 		
+		VBox vLabel = new VBox();
+		vLabel.getChildren().addAll(idLabel,buildingLabel,streetLabel,cityLabel);
+		vLabel.setSpacing(20);
+		VBox vText = new VBox();
+		vText.getChildren().addAll(comboBoxId, dateSpinner, comboBoxCustomer, comboBoxCar);
+		vText.setSpacing(10);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(vLabel,vText);
+		hbox.setSpacing(10);
+		
 		insertDataVbox.setSpacing(10);
 		fullPane.setSpacing(80);
 		insertDataVbox.getChildren().addAll(hboxId, hboxBuilding, hboxStreet, hboxCity);
@@ -497,7 +538,7 @@ public class OrdersTable extends Application {
 		pane.setHgap(3.5);
 		pane.setVgap(3.5);
 		pane.setAlignment(Pos.CENTER_LEFT);
-		pane.add(insertDataVbox, 0, 0);
+		pane.add(hbox, 0, 0);
 
 		Button buttonUpdate = new Button("Update Data");
 		buttonUpdate.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -588,6 +629,14 @@ public class OrdersTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Update Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					dateSpinner.getEditor().clear();
+					comboBoxCustomer.getSelectionModel().clearSelection();
+					comboBoxCar.getSelectionModel().clearSelection();
 				}
 				}} catch (Exception e1) {
 				e1.printStackTrace();
@@ -656,6 +705,14 @@ public class OrdersTable extends Application {
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
 					buildData(null);
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("CONFIRMATION");
+					alert.setContentText("Delete Complete!");
+					alert.showAndWait();
+					comboBoxId.getSelectionModel().clearSelection();
+					comboBoxId.getItems().clear();
+					data();
+					comboBoxId.getItems().addAll(idList);
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
